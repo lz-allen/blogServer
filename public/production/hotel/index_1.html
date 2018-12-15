@@ -1,0 +1,282 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<title>网页设计</title>
+	
+	<script type="text/javascript" src="Scripts/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="Scripts/jquery.SuperSlide.2.1.js"></script>
+	<script type="text/javascript" src="Scripts/jsForNav.js"></script>
+	<script type="text/javascript" src="Scripts/jsForInfo2.js"></script>
+	<script type="text/javascript" src="Scripts/all.js"></script>
+	<script type="text/javascript" src="Scripts/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="Scripts/jquery.zalki_hover_img.min-0.2.js"></script>
+
+	
+	<link rel="stylesheet" type="text/css" href="Styles/info_1.css" />
+	<link rel="stylesheet" type="text/css" href="Styles/all.css" />
+	<link rel="stylesheet" type="text/css" href="Styles/topPictureFullSlide.css" />
+	<link rel="stylesheet" type="text/css" href="Styles/indexNav.css" />
+
+
+	
+</head>
+
+<body style="text-align:center">
+
+	
+	<div class = "topPictureFullSlide" >
+		<div class="topSlide_context">
+			<ul>
+				<li style="background:url(Images/top_1.jpg) center center no-repeat;"></li>
+				<li style="background:url(Images/top_2.jpg) center center no-repeat;"></li>
+				<li style="background:url(Images/top_3.jpg) center center no-repeat;"></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" >
+
+		/* 调用SuperSlide */
+		jQuery(".topPictureFullSlide").slide({  mainCell:".topSlide_context ul", effect:"fold",  autoPlay:true,delayTime:2200,interTime:5000,triggerTime:0,mouseOverStop:false,
+			startFun:function(i){
+				var curLi = jQuery(".topPictureFullSlide  li").eq(i); /* 当前大图的li */
+				if( !!curLi.attr("_src") ){
+					curLi.css("background-image",curLi.attr("_src")).removeAttr("_src") /* 将_src地址赋予li背景，然后删除_src */
+				}
+			}
+		});
+	</script>
+	
+	
+	<div class="navBar">
+		<ul class="nav">
+			<a target="_self" style="font-weight:bold;"  font-size="50px" href="index_1.html">首页</a></h3>
+			<a target="_self" style="color:#DFDCDA;"  href="index_2.html">酒店预订</a></h3>
+			<a target="_self" style="color:#DFDCDA;"  href="index_3.html">最新活动</a></h3><!--特卖专区-->
+			<a target="_self" style="color:#DFDCDA;"  href="index_4.html">华住会员</a></h3>
+			<a target="_self" style="color:#DFDCDA;"  href="index_5.html">关于御龙栖霞</a></h3>
+			<li class="block"></li><!-- 滑动块 -->
+
+		</ul>
+	</div>
+	<div class="blank"></div>
+	<script type="text/javascript" >funNav(0);</script>
+		
+
+	<div class="info1">
+		<div class="info1_context">
+			<ul class="info1_1">
+				<li>
+					<h3 class="title"></br>华住好客汇为您提供优质商旅酒店</h3>
+					<p class="details" ></br>&nbsp&nbsp&nbsp&nbsp“华住好客汇”是一个全新升级的旅行生活平台，为注重生活品质的旅行者提供住宿、出行、购物等优选服务。“华住好客汇”覆盖了中国的多个城市，多家酒店，2016年内将陆续上线4000多家海外酒店，满足客人从平价到高端、从商务差旅到休闲度假多种个性化需求。</p>
+				</li>
+				<li>
+					<h3 class="title"></br>加入华住会 尊享特权</h3>
+					<p class="details" ></br>&nbsp&nbsp&nbsp&nbsp“
+					华住会是华住好客汇平台的会员忠诚度计划，会员权益覆盖7+X个品牌，全球6000多家酒店，及丰富的旅行产品。折扣、积分、特权、惊喜，只为给你更多！</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+		jQuery(".info1").slide({mainCell:" ul",autoPlay:true,mouseOverStop:false,delayTime:2000,interTime:9000,effect:"fold"});
+	</script>
+
+	<div class="info2">
+		<div class="info2_context_all">
+			<div class="info2_title">
+				<div class="info2_hr"></div>
+				<img class="info2_logo" src="images/info2/info2title.png">
+				<div class="info2_hr"></div>
+			</div>
+			<div class="info2_context">
+				<div class="info2_1" onmouseover="over('info2_1_main','info2_1_message')" onmouseout="out('info2_1_main','info2_1_message')">
+					<img id="info2_1_message" class="info2_message" src="Images/info2/info2_1_message.png">
+					<img id="info2_1_main" class="info2_main"src="Images/info2/info2_1_main2.png" >	
+				</div>
+				
+				<div class="info2_2" onmouseover="over('info2_2_main','info2_2_message')" onmouseout="out('info2_2_main','info2_2_message')">
+					<img id="info2_2_message" class="info2_message"src="Images/info2/info2_2_message.png">
+					<img id="info2_2_main" class="info2_main"src="Images/info2/info2_2_main2.png">	
+				</div>
+				
+				<div class="info2_3" onmouseover="over('info2_3_main','info2_3_message')" onmouseout="out('info2_3_main','info2_3_message')">
+					<img id="info2_3_message" class="info2_message"src="Images/info2/info2_3_message.png">
+					<img id="info2_3_main" class="info2_main"src="Images/info2/info2_3_main2.png">	
+				</div>
+				
+				<div class="info2_4" onmouseover="over('info2_4_main','info2_4_message')" onmouseout="out('info2_4_main','info2_4_message')">
+					<img id="info2_4_message" class="info2_message"src="Images/info2/info2_4_message.png">
+					<img id="info2_4_main" class="info2_main"src="Images/info2/info2_4_main2.png">	
+				</div>
+				
+				<div class="info2_5" onmouseover="over('info2_5_main','info2_5_message')" onmouseout="out('info2_5_main','info2_5_message')">
+					<img id="info2_5_message" class="info2_message"src="Images/info2/info2_5_message.png">
+					<img id="info2_5_main" class="info2_main"src="Images/info2/info2_5_main2.png">	
+				</div>
+				<div class="info2_blank"></div>
+				<div class="info2_6" onmouseover="over('info2_6_main','info2_6_message')" onmouseout="out('info2_6_main','info2_6_message')" style="padding-left:10%">
+					<img id="info2_6_message" class="info2_message"src="Images/info2/info2_6_message.png">
+					<img id="info2_6_main" class="info2_main"src="Images/info2/info2_6_main2.png">	
+				</div>
+				<div class="info2_7" onmouseover="over('info2_7_main','info2_7_message')" onmouseout="out('info2_7_main','info2_7_message')">
+					<img id="info2_7_message" class="info2_message"src="Images/info2/info2_7_message.png">
+					<img id="info2_7_main" class="info2_main"src="Images/info2/info2_7_main2.png">	
+				</div>
+				<div class="info2_8" onmouseover="over('info2_8_main','info2_8_message')" onmouseout="out('info2_8_main','info2_8_message')">
+					<img id="info2_8_message" class="info2_message"src="Images/info2/info2_8_message.png">
+					<img id="info2_8_main" class="info2_main"src="Images/info2/info2_8_main2.png">	
+				</div>
+				<div class="info2_9" onmouseover="over('info2_9_main','info2_9_message')" onmouseout="out('info2_9_main','info2_9_message')">
+					<img id="info2_9_message" class="info2_message"src="Images/info2/info2_9_message.png">
+					<img id="info2_9_main" class="info2_main"src="Images/info2/info2_9_main2.png">	
+				</div>
+	<!--		<div class="info2_10" onmouseover="over('info2_10_main','info2_10_message')" onmouseout="out('info2_10_main','info2_10_message')">
+					<img id="info2_10_message" class="info2_message"src="Images/info2/info2_10_message.png">
+					<img id="info2_10_main" class="info2_main"src="Images/info2/info2_10_main2.png">	
+				</div>
+		-->
+			<div class="info2_blank"></div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="info3">
+		<div class="info3_context">
+			<h3 class="title">热门活动</h3>
+			<div class="activity info3_1" data-hipop="one-horizontal" >
+				<img src="images/31.png"> <a href="#" class="popup">手机会员 低价保证</a>
+			</div>
+			
+			<div class="activity info3_2" data-hipop="one-horizontal">
+				<img src="images/32.png"> <a href="#" class="popup">早订优惠</a>
+			</div>
+			
+			<div class="activity info3_3" data-hipop="one-horizontal">
+				<img src="images/33.png"> <a href="#" class="popup">会员积分当钱花</a>
+			</div>
+			<div class="info3_right"></div>
+			<div class="activity info3_4" data-hipop="one-horizontal">
+				<img src="images/34.png"> <a href="#" class="popup">华住会与乐雅会积分互换</a>
+			</div>
+			
+			<div class="activity info3_5" data-hipop="one-horizontal">
+				<img src="images/35.png"> <a href="#" class="popup">安心连住</a>
+			</div>
+		</div>
+	</div>
+		
+	<div class="info4">
+		<div class="info4_context">
+			<h3 class="title">推荐目的地</h3>
+		
+			<div class="info4_1">
+				<img class="imfo4_1_pic" src="Images/41.png">
+				<p>此处用来填充文字</p>
+			</div>
+			<div class="info4_2">
+				<img class="imfo4_2_pic" src="Images/42.png">
+				<p>此处用来填充文字</p>
+			</div>
+			<div class="info4_3">
+				<img class="imfo4_3_pic" src="Images/43.png">
+				<p>此处用来填充文字</p>
+			</div>
+		</div>
+	</div>
+	
+
+	
+	<div class="info5">
+		<div class="info5_context">
+			<ul>
+				<li>
+					<div class="info5_1">
+						<img src="Images/51.png">
+						<h4><br/>低价保证</h4>
+						<p>官方渠道享低价</p>
+					</div>
+				</li>
+				<li>
+					<div class="info5_2">
+						<img src="Images/52.png">
+						<h4><br/>畅享积分</h4>
+						<p>积分支付房费 兑换缤纷好礼</p>
+					</div>
+				</li>
+				<li>
+					<div class="info5_3">
+						<img src="Images/53.png">
+						<h4><br/>专属特权</h4>
+						<p>送早餐 延时退房 生日礼券</p>
+					</div>
+				</li>
+				<li>
+					<div class="info5_4">
+						<img src="Images/54.png">
+						<h4><br/>更多惊喜</h4>
+						<p>关注微信抢会员免费福利</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	
+	<div class="bottom">
+		<div class="bottom_context">
+			<div style="width:1100px;height:50px;"></div>
+			<div class="bottom_1"><img src="Images/logomiddle.png"></div>
+			<div class="bottom_2">
+				<h5 style="font-size:21px;">135-8598-8010</h5>
+				<ul class="bottom_2_1">
+					<li>24小时全天服务电话</li>
+					<li>免长话费，全年无休</li>
+					<li>RubickDong@163.com</li>
+				</ul>
+			</div>
+			<div class="bottom_3"><img src="Images/qrcodeapp.jpg">APP首单<br/>返现10%房费</div>
+			<div class="bottom_4"><img src="Images/qrcodewechat.jpg">关注微信领福利</div>
+			<div class="bottom_5"></div>
+			<div class="bottom_6">
+				<dl>
+					<dt>会员服务</dt>
+					<dd>会员权益</dd>
+					<dd>会员公告</dd>
+					<dd>会员手册</dd>
+				</dl>
+				<dl>
+					<dt>酒店预订</dt>
+					<dd>目录预订</dd>
+					<dd>地图预订</dd>
+					<dd>网站地图</dd>
+				</dl>
+				<dl>
+					<dt>加盟合作</dt>
+					<dd>酒店加盟</dd>
+					<dd>加盟政策</dd>
+					<dd>我要加盟</dd>
+				</dl>
+				<dl>
+					<dt>华住动态</dt>
+					<dd>华住酒店集团</dd>
+					<dd>华住大事记</dd>
+					<dd>华住媒体报道</dd>
+					<dd>投资者关系</dd>
+					
+				</dl>
+				<dl>
+					<dt>华住好客汇</dt>
+					<dd>华住好客汇介绍</dd>
+					<dd>品牌介绍</dd>
+					<dd>联系我们</dd>
+					<dd>职位招聘</dd>
+				</dl>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

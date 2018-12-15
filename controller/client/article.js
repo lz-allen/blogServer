@@ -35,7 +35,6 @@ module.exports = {
     try {
       let data = await ctx.findOne(articleModel, {_id: id})
       ctx.send(data)
-      console.log(data)
     } catch (error) {
       ctx.sendError(error)
     }

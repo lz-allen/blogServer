@@ -1,0 +1,21 @@
+﻿.topPictureFullSlide{
+	width:100%;
+	position:absolute;
+	height:560px;
+	z-index:1;
+	}
+	
+.topPictureFullSlide  ul{
+	width:100% !important;  
+	position:absolute;
+	z-index:1;
+	}
+	
+.topPictureFullSlide  li{ 
+	width:100% !important;
+	overflow:hidden;
+	display:block;
+	height:560px;  
+	position:absolute;
+	z-index:1;
+	}

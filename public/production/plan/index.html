@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html onselectstart="return false">
+	<head>
+		<meta charset="UTF-8">
+		<title>打飞机</title>
+		 <meta name="author" content="lzf"/>
+	</head>
+	<style type="text/css">
+		*{margin: 0;padding: 0;}
+		body{
+			overflow: hidden;
+		}
+		#box{
+			width: 512px;
+			height: 768px;
+			position: relative;
+			margin: 0 auto;
+			-webkit-user-select: none;
+			user-select: none;
+		}
+		#map,#menu,#settlement{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+		#settlement{
+			padding-top: 150px;
+			display: none;
+		}
+		#settlement p{
+			color: #fff;
+			text-indent: 200px;
+			margin-top: 50px;
+		}
+		#settlement p span{
+			padding-left: 20px;
+			color: red;
+		}
+		#settlement #reStartBtn{
+			position: absolute;
+			padding: 5px 10px;
+			margin: 0 auto;
+			font-weight: bold;
+			background: #FFFFFF;
+			text-align: center;
+			color: #000;
+			text-indent:0;
+		}
+		#settlement #reStartBtn:hover{
+			background: #DFDFDF;
+		}
+		#map{
+		
+			background: url(img/bg_1.jpg);
+		}
+		#menu h2{
+			color: #fff;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 80px;
+			font-size: 30px;
+			margin-bottom: 120px;
+		}
+		#menu p{
+			width: 150px;
+			height: 30px;
+			background: #fff;
+			margin: 30px auto;
+			text-align: center;
+			line-height: 30px;
+			cursor: pointer;
+		}
+		#menu p:hover{
+			background: coral;
+			color: #fff;
+		}
+		#map .plane,#fire .bullet,#map .enemy,#map .boom,#map .boom2{
+			position: absolute;
+		}
+		#map .plane{
+			z-index: 1;
+		}
+		#fire .bullet{
+			z-index: 2;
+		}
+		#map .boom{
+			animation: fade .8s forwards;
+		}
+		#map .boom2{
+			animation: bling 2s 1 forwards;
+		}
+		#score{
+			position: absolute;
+			left: 15px;
+			top: 15px;
+			color: #fff;
+			display: none;
+		}
+		
+		@keyframes fade{
+			from{opacity: 1;}
+			to{opacity:0}
+		}
+		@keyframes bling {
+                0%{ opacity: 1; }
+                20%{ opacity: 0; }
+                40%{opacity: 1; }
+                60%{opacity: 0;}
+                80%{opacity: 1; }
+                100%{opacity: 0;}
+            }
+
+	</style>
+	<body>
+		<div id="box">
+			<div id="map">
+				<div id="fire"></div>
+			</div>
+			<div id="menu">
+				<h2>Play The Plane</h2>
+				<p>easy</p>
+				<p>middle</p>
+				<p>difficul</p>
+				<p>abnormal</p>
+			</div>
+			<div id="score">0</div>
+			<div id="settlement">
+				<p>历史最高:<span>0</span></p>
+				<p>得分:<span>0</span></p>
+				<p>称号:<span></span></p>
+				<p><span id="reStartBtn">重新开始</span></p>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//动画兼容
+		window.requestAnimationFrame=window.requestAnimationFrame||function(fn){setTimeout(fn(),1000/60);}
+		window.cancelAnimationFrame=window.cancelAnimationFrame||clearTimeout;
+		//全局变量
+		var oBox=document.getElementById('box'),
+			oMap=document.getElementById('map'),
+			oMenu=document.getElementById('menu'),
+			oFire=document.getElementById('fire'),
+			oScore=document.getElementById('score'),
+			settlement=document.getElementById('settlement'),
+			oBullet=oFire.children,
+			oP=oMenu.getElementsByTagName('p'),
+			boxLeft=oBox.offsetLeft,
+			boxTop=oBox.offsetTop,
+			fireTime=null,
+			enemyTime=null,
+			bgTime=null;
+		//选择难度事件
+		(function chioce(){
+			for (var i=0,length=oP.length;i<length;i++) {
+				(function(i){
+					oP[i].onclick=function(e){
+						e=e||window.event;
+						startGame(i,{
+							//飞机初始位置
+							left:e.clientX-boxLeft,
+							top:e.clientY-boxTop
+						});	
+					}
+				})(i);
+			}
+		})();
+		//开始游戏
+		function startGame(level,pos){
+			oMenu.style.display='none';
+			oScore.style.display='block'
+			oBox.score=0;
+			bgMove(level);
+			p=myPlane(level,pos);
+			fire(level,p);
+			enemy(level,p);
+		}
+		//我军飞机
+		function myPlane(level,pos){
+			var pImg=new Image();
+			pImg.src='img/plane_1.png'
+			pImg.width=70;
+			pImg.height=70;
+			pImg.className='plane';
+			pImg.style.left=pos.left-pImg.width/2+"px";
+			pImg.style.top=pos.top-pImg.height/2+"px";
+			oMap.appendChild(pImg);
+			//边界
+			var minTop=pImg.height/2,
+				maxTop=oBox.clientHeight-pImg.clientHeight/2,
+				minleft=0,
+				maxLeft=oBox.clientWidth;
+			//移动
+			document.onmousemove=function(e){
+				e=e||window.event;
+				var left=e.clientX-boxLeft,
+					top=e.clientY-boxTop;
+				left=Math.max(left,minleft);
+				left=Math.min(left,maxLeft);
+				top=Math.max(top,minTop);
+				top=Math.min(top,maxTop);
+				pImg.style.left=left-pImg.width/2+"px";
+				pImg.style.top=top-pImg.height/2+"px";
+			}
+			return pImg;
+		}
+		//我军开火
+		function fire(level,plane){
+			fireTime=setInterval(function(){
+				//子弹种类
+				if(level===0){
+					createBullte();
+				}else if(level==1){
+					createBullte(0.5);
+					createBullte(-0.5);
+				}else if(level==2){
+					createBullte(0.5);
+					createBullte(-0.5);
+					createBullte();
+				}else if(level==3){
+					createBullte(0);
+					createBullte(0);
+					createBullte(0.5);
+					createBullte(-0.5);
+				}
+			},[200,150,100,30][level]);
+			function createBullte(d){
+				var bullet=new Image()
+				bullet.src='img/fire.png';
+				bullet.width=40;
+				bullet.height=40;
+				bullet.className="bullet";
+				bullet.left=parseFloat(plane.style.left)-bullet.width/2+plane.width/2;
+				bullet.top=parseFloat(plane.style.top)-plane.height/2;
+				if(d){
+					bullet.left+=bullet.width*d;
+				}
+				if(d==1||d==-1){
+					bullet.left+=bullet.width*d;
+				}
+				if(d==0){
+					bullet.width=100;
+					bullet.height=100;
+					bullet.left=parseFloat(plane.style.left)-bullet.width/2+plane.width/2;
+					bullet.top=parseFloat(plane.style.top)-plane.height/2;
+				}
+				bullet.style.left=bullet.left+'px';
+				bullet.style.top=bullet.top+'px';
+				oFire.appendChild(bullet);
+				//子弹移动
+				function m(){
+					if(bullet.top<-bullet.height){
+						if(bullet.parentNode){
+							oFire.removeChild(bullet);
+						}
+					}else{
+						bullet.top-=[10,15,20,25][level];
+						bullet.style.top=bullet.top+'px';
+						requestAnimationFrame(m);
+					}
+				}
+				setTimeout(function(){
+					m();
+				},30);
+			}
+		}
+		//敌军飞机
+		function enemy(level,plane){
+			var w=oBox.clientWidth,
+				h=oBox.clientHeight,
+				speed=[4,5,6,7][level],
+				num=1;
+			enemyTime=setInterval(function(){
+				var index=num%20?1:0;
+				var enemyImg=new Image();
+				enemyImg.HP=[15,1][index];
+				enemyImg.src='img/'+['enemy_big.png','enemy_small.png'][index];
+				enemyImg.width=[104,54][index];
+				enemyImg.height=[80,40][index];
+				enemyImg.speed=speed+(Math.random()*0.6-0.3)*speed;
+				enemyImg.speed*=index?1:0.5;
+				enemyImg.className="enemy";
+				enemyImg.style.left=Math.random()*w-enemyImg.width/2+'px';
+				enemyImg.style.top=-enemyImg.height+'px';
+				oMap.appendChild(enemyImg);
+				num++;
+				function m(){
+					var top=parseFloat(enemyImg.style.top);
+					top+=enemyImg.speed;
+					if(top>h){
+						if(enemyImg.parentNode){
+							oMap.removeChild(enemyImg);
+						}
+					}else{
+						enemyImg.style.top=top+'px';
+						//子弹碰撞
+						for (var i=oBullet.length-1;i>=0;i--) {
+							if(coll(oBullet[i],enemyImg)){
+								oFire.removeChild(oBullet[i]);
+								enemyImg.HP--;
+								if(!enemyImg.HP){
+									oBox.score+=index?2:20;
+									oScore.innerHTML=oBox.score;
+									boom(enemyImg.style.left,enemyImg.style.top,enemyImg.width,enemyImg.height,index?0:2);
+									oMap.removeChild(enemyImg);
+									return
+								}
+							}
+						}
+						//我军碰撞
+						if(plane.parentNode&&coll(enemyImg,plane)){
+							boom(enemyImg.style.left,enemyImg.style.top,enemyImg.width,enemyImg.height,index?0:2);
+							boom(plane.style.left,plane.style.top,plane.width,plane.height,1);
+							oMap.removeChild(enemyImg);
+							oMap.removeChild(plane);
+							gameOver();
+						}
+						requestAnimationFrame(m)
+					}
+				}
+				requestAnimationFrame(m);
+			},[300,200,150,100][level]);
+		}
+		//两个物体 碰撞检测
+        function coll( obj1 , obj2 ){
+            var T1 = obj1.offsetTop,
+                B1 = T1+obj1.clientHeight,
+                L1 = obj1.offsetLeft,
+                R1 = L1+obj1.clientWidth;
+
+            var T2 = obj2.offsetTop,
+                B2 = T2+obj2.clientHeight,
+                L2 = obj2.offsetLeft,
+                R2 = L2+obj2.clientWidth;
+
+            return !( B1 < T2 || R1 < L2 || T1 > B2 || L1 > R2 );
+        }
+        //爆炸图
+		function boom(l,t,w,h,index){
+			var boomImg=new Image();
+			boomImg.src="img/"+["boom_small.png","plane_1.png","boom_big.png"][index];
+			boomImg.width=w;
+			boomImg.height=h;
+			boomImg.className='boom'+['',2,''][index];
+			boomImg.style.left=l;
+			boomImg.style.top=t;
+			oMap.appendChild(boomImg);
+			setTimeout(function(){
+				boomImg.parentNode&&oMap.removeChild(boomImg);
+			},[1000,2500,1000][index]);
+		}
+		//背景运动
+		function bgMove(level){
+			oMap.style.backgroundImage='url(img/bg_'+(level+1)+'.jpg)';
+			(function m(){
+				oMap.bgPosY=oMap.bgPosY||0;
+				oMap.bgPosY++;
+				oMap.style.backgroundPositionY=oMap.bgPosY+'px';
+				bgTime=requestAnimationFrame(m);
+			})();
+		}
+		function gameOver(){
+			document.onmousemove=null;
+			clearInterval(fireTime);
+			clearInterval(enemyTime);
+			setTimeout(function(){
+				reStart();
+			},2000);
+		}
+		function reStart(){
+			cancelAnimationFrame(bgTime);
+			settlement.style.display='block';
+			var s = oBox.score,
+				maxS;
+			maxS=getCookie('score')?getCookie('score'):setCookie({score:s},365);
+			if(s > maxS){
+				setCookie({score:s},365);
+			}
+			var honor;
+                if ( s < -300 ){
+                    honor = "闪避+MAX！！！";
+                }else if ( s < 10 ){
+                    honor = "菜得…算了我不想说了…";
+                }else if ( s < 30 ){
+                    honor = "抠脚侠！";
+                }else if ( s < 100 ){
+                    honor = "初级飞机大师";
+                }else if ( s < 200 ){
+                    honor = "渐入佳境";
+                }else if ( s < 500 ){
+                    honor = "中级飞机大师";
+                }else if ( s < 1000 ){
+                    honor = "高级飞机大师";
+                }else if ( s < 5000 ){
+                    honor = "终极飞机大师";
+                }else{
+                    honor = "孤独求败！";
+                }
+			settlement.children[0].children[0].innerHTML=getCookie('score');
+			settlement.children[1].children[0].innerHTML=s;
+			settlement.children[2].children[0].innerHTML=honor;
+			settlement.children[3].children[0].onclick=function(){
+				settlement.style.display='none';
+				oMenu.style.display='block';
+			};
+		}
+//		设置cookie
+		function setCookie(json,time){
+			var date=new Date(new Date().getTime()+time*24*3600*1000).toGMTString();
+			for(var key in json){
+				document.cookie=key+"="+json[key]+"; expires="+date;
+			}
+		}
+//		获取cookie
+		function getCookie(key){
+			var arr=document.cookie.match(new RegExp("(\\s|^)"+key+"=([^;]*)(;|$)"));
+			return arr?arr[2]:false;
+		}
+	</script>
+</html>

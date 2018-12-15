@@ -1,0 +1,420 @@
+/* http://meyerweb.com/eric/tools/css/reset/ *//* v1.0 | 20080212 */html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td {  margin: 0;  padding: 0;  border: 0;  outline: 0;  font-size: 100%;  vertical-align: baseline;  background: transparent;}body {  line-height: 1;}ul {  list-style: none;}blockquote, q {  quotes: none;}blockquote:before, blockquote:after,q:before, q:after {  content: '';  content: none;}a{  text-decoration: none;}/* remember to define focus styles! */:focus {  outline: 0;}/* remember to highlight inserts somehow! */ins {  text-decoration: none;}del {  text-decoration: line-through;}/* tables still need 'cellspacing="0"' in the markup */table {  border-collapse: collapse;  border-spacing: 0;}html,
+body {
+  min-width: 1200px;
+  font-size: 14px;
+  font-family: "Microsoft YaHei";
+  color: #111;
+}
+.clearfix {
+  overflow: auto;
+  _height: 1%;
+}
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.header {
+  height: 150px;
+  background: #f5f5f5;
+}
+.header .logo {
+  position: absolute;
+  left: 0;
+  top: 14px;
+}
+.header .logo img {
+  width: 120px;
+  height: 120px;
+}
+.header .logoName {
+  position: absolute;
+  left: 140px;
+  top: 44px;
+  font-size: 30px;
+  color: #111;
+  font-weight: bolder;
+}
+.header .nav {
+  position: absolute;
+  top: 30px;
+  right: 0px;
+}
+.header .nav > ul {
+  width: 500px;
+  height: 80px;
+}
+.header .nav > ul > li {
+  margin-bottom: 5px;
+  display: inline-block;
+  position: relative;
+}
+.header .nav > ul > li > a {
+  display: inline-block;
+  width: 84px;
+  height: 20px;
+  padding: 10px 5px;
+  line-height: 20px;
+  text-align: center;
+  color: #111;
+  border-radius: 3px;
+  border-right: 2px solid #ddd;
+}
+.header .nav > ul > li > a:hover {
+  background: #111;
+  color: #fff;
+}
+.header .nav > ul > li ul {
+  width: 150px;
+  display: none;
+  position: absolute;
+  background: #eee;
+  z-index: 666;
+  border: 1px solid #ddd;
+}
+.header .nav > ul > li ul li {
+  margin: 10px 0;
+}
+.header .nav > ul > li ul li a {
+  width: 140px;
+  display: inline-block;
+  font-size: 12px;
+  padding-left: 10px;
+  line-height: 20px;
+  color: #111;
+}
+.header .nav > ul > li ul li a:hover {
+  background: #111;
+  color: #fff;
+}
+.header .nav > ul > li:hover ul {
+  display: block;
+}
+.main #carousel {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  position: relative;
+}
+.main #carousel .content .c-pic li {
+  text-align: center;
+  position: absolute;
+  display: none;
+}
+.main #carousel .content .c-pic li a {
+  display: inline-block;
+  line-height: 0;
+}
+.main #carousel .content .c-pic li a img {
+  width: 100%;
+  height: auto;
+}
+.main #carousel .content .dot {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  width: 100px;
+  height: 10px;
+  margin-left: -50px;
+  z-index: 7;
+}
+.main #carousel .content .dot ul li {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  margin: 0 5px;
+  display: inline-block;
+  cursor: pointer;
+}
+.main #carousel .content .dot ul li.on {
+  background: #0c8ac8;
+}
+.main .left {
+  float: left;
+  width: 800px;
+  height: 600px;
+}
+.main .newList {
+  position: relative;
+}
+.main .newList h2 {
+  height: 30px;
+  padding: 0 20px;
+  line-height: 30px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #0062ac;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+.main .newList h2 a {
+  float: right;
+  font-size: 14px;
+  font-weight: normal;
+  color: #fff;
+}
+.main .newList h2 a:hover {
+  text-decoration: underline;
+}
+.main .newList ul {
+  height: 220px;
+}
+.main .newList ul li {
+  display: none;
+  width: 100%;
+  position: absolute;
+}
+.main .newList ul li .newsImg {
+  width: 370px;
+}
+.main .newList ul li .newsImg a {
+  display: inline-block;
+}
+.main .newList ul li .newsImg a img {
+  width: 370px;
+  height: 200px;
+}
+.main .newList ul li .btn {
+  position: absolute;
+  top: 86px;
+  width: 370px;
+  height: 0;
+  color: #fff;
+}
+.main .newList ul li .btn div {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background-color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.main .newList ul li .btn .btn-left {
+  float: left;
+}
+.main .newList ul li .btn .btn-right {
+  float: right;
+}
+.main .newList ul li .newsBanner {
+  position: absolute;
+  top: 165px;
+  width: 370px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+.main .newList ul li .newsDesc {
+  width: 400px;
+  padding: 0 15px 15px 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #111;
+}
+.main .newList ul li .newsDesc h3 {
+  text-align: center;
+  font-size: 16px;
+}
+.main .newList ul li .newsDesc .info {
+  margin-top: 20px;
+  text-indent: 2em;
+  line-height: 20px;
+  overflow: hidden;
+  height: 163px;
+}
+.main .tabToggle .main-footer {
+  position: relative;
+}
+.main .tabToggle .main-footer .title {
+  margin-top: 20px;
+}
+.main .tabToggle .main-footer .title ul {
+  overflow: hidden;
+  border-bottom: 2px solid #0062ac;
+}
+.main .tabToggle .main-footer .title ul li {
+  color: #111;
+  float: left;
+  font-size: 14px;
+  height: 30px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 0 30px;
+  padding: 0 10px;
+  line-height: 30px;
+}
+.main .tabToggle .main-footer .title ul li.on {
+  background: #0062ac;
+  color: #fff;
+}
+.main .tabToggle .main-footer .m-content {
+  position: absolute;
+  display: none;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.main .tabToggle .main-footer .m-content ul {
+  border: 1px dashed #ccc;
+}
+.main .tabToggle .main-footer .m-content ul li {
+  line-height: 30px;
+}
+.main .tabToggle .main-footer .m-content ul li a {
+  display: inline-block;
+  width: 520px;
+  padding-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #111;
+}
+.main .tabToggle .main-footer .m-content ul li a:hover {
+  text-decoration: underline;
+}
+.main .tabToggle .main-footer .m-content ul li span {
+  padding-right: 20px;
+  float: right;
+}
+.main .tabToggle .main-footer .m-content.on {
+  display: block;
+}
+.main .right {
+  float: right;
+  width: 350px;
+  padding: 0 0 0 30px;
+}
+.main .right .rightCommon {
+  margin-top: 20px;
+  -webkit-box-shadow: 0 0 5px #ddd;
+          box-shadow: 0 0 5px #ddd;
+}
+.main .right .rightCommon h3 {
+  font-size: 16px;
+  font-weight: normal;
+  height: 30px;
+  line-height: 30px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 0 15px;
+  background-color: #0062B4;
+  color: #fff;
+}
+.main .right .rightCommon h3 a {
+  float: right;
+  color: #fff;
+  font-size: 14px;
+}
+.main .right .rightCommon h3 a:hover {
+  text-decoration: underline;
+}
+.main .right .rightCommon ol {
+  list-style-position: inside;
+  padding: 15px 0 15px 15px;
+  border: 1px solid #ccc;
+}
+.main .right .rightCommon ol li {
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.main .right .rightCommon ol li a {
+  padding-left: 6px;
+  color: #111;
+}
+.main .right .rightCommon ol li a:hover {
+  text-decoration: underline;
+}
+.returnIndex {
+  position: fixed;
+  cursor: pointer;
+  right: 10px;
+  bottom: 10px;
+  width: 100px;
+  height: 100px;
+  background: url(../images/returnIndex.png) no-repeat center;
+}
+#footer {
+  margin-top: 20px;
+  width: 100%;
+  height: 100px;
+  background: #F5F5FA;
+}
+#footer .wrap {
+  width: 1140px;
+  margin: 0 auto;
+  padding: 0 30px;
+  position: relative;
+}
+#footer .wrap .footer-left {
+  width: 300px;
+  float: left;
+}
+#footer .wrap .footer-left a {
+  display: block;
+  height: 100px;
+  color: #111;
+}
+#footer .wrap .footer-left a .logo {
+  width: 100px;
+  height: 100px;
+  float: left;
+  background: url(../images/logo.png) no-repeat center;
+  background-size: 80px 80px;
+}
+#footer .wrap .footer-left a .text {
+  font-size: 18px;
+  float: left;
+  height: 100px;
+  line-height: 100px;
+}
+#footer .wrap .footer-right {
+  float: right;
+  width: 835px;
+  height: 100px;
+}
+#footer .wrap .footer-right .dec {
+  display: inline-block;
+  width: 400px;
+  vertical-align: top;
+  padding-top: 10px;
+}
+#footer .wrap .footer-right .dec p {
+  color: #333;
+  line-height: 33px;
+  font-size: 12px;
+}
+#footer .wrap .footer-right .link {
+  display: inline-block;
+  padding-top: 10px;
+  vertical-align: top;
+  width: 400px;
+}
+#footer .wrap .footer-right .link h3 {
+  font-weight: normal;
+  color: #333;
+  font-size: 14px;
+}
+#footer .wrap .footer-right .link ul {
+  padding-left: 14px;
+  padding-top: 10px;
+}
+#footer .wrap .footer-right .link ul li {
+  width: 50%;
+  float: left;
+  text-align: center;
+  line-height: 20px;
+}
+#footer .wrap .footer-right .link ul li a {
+  color: #333;
+  font-size: 12px;
+  text-decoration: underline;
+}

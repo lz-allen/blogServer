@@ -1,0 +1,21 @@
+	/* css ÖØÖÃ */
+	*{
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+	body{
+		background:#fff;
+		font-family: font: 12px/1.5 Tahoma,Helvetica,Arial,'??',sans-serif;
+		width:100%;
+		text-align:center
+	}
+	img{
+		border:0; 
+	}
+	a{
+		text-decoration:none; 
+		color:#333;
+		font-family:"Microsoft YaHei" ;
+		font-size:16px;
+	}

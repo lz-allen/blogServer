@@ -1,0 +1,35 @@
+	.navBar{
+		display:block;
+		position:relative;
+		z-index:2;
+		padding-left:20%;
+		padding-top:100px;
+		line-height:70px;
+	}
+	.nav{
+		position:relative;
+		width:980px;
+		margin:0 auto;
+	}
+	.nav  a{
+		display:block;
+		position:relative; 
+		z-index:2;
+		width:124px; 
+		text-align:center;color:#fff; 
+		float:left;
+		font-weight:bold;
+	}
+	.nav .block{ 
+		height:3px; 
+		width:80px;
+		background:#FE7700; 
+		position:absolute; 
+		left:0;
+		top:57px;
+		overflow:hidden;
+	}
+
+	.blank{
+		height:520px;
+	}

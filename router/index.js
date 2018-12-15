@@ -23,5 +23,6 @@ module.exports = app => {
   router.get('/client_demo_api/article/articleInfo', app.client.article.articleInfo)
   router.get('/client_demo_api/article/getCategory', app.client.article.getCategory)
   router.get('/client_demo_api/article/randomArticle', app.client.article.randomArticle)
-  app.use(router.routes()).use(router.allowedMethods())
+  app.use(router.routes()).use(router.allowedMethods())  //将router下的所有routers注册到app对象上面
+                                                          //allowedMethods：顾名思义：就是当前接口运行的method。 比如，一个提供数据的接口，就可以设置为GET， 当客户端发送POST请求时，就会直接返回失败。
 }

@@ -1,0 +1,1 @@
+css命名错了，info2是第二个页面的css，并非info2的css

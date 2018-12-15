@@ -5,6 +5,7 @@ const articleSchema = mongoose.Schema({
     title: String,
     desc: String,
     textVal: String,
+    src: String,
     markdown: String,
     publishTime: Date,
     total: Number,

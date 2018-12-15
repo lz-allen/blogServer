@@ -1,0 +1,382 @@
+ <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>贪吃蛇</title>
+  <style type="text/css">
+  	*{
+  		margin: 0;
+  		padding: 0;
+  	}
+  	body{
+  		width: 100%;
+  		height: 100%;
+  		overflow: hidden;
+  		background: url(bg1.jpeg);
+  	}
+  	div{
+  		width: 20px;
+  		height: 20px;
+  		position: absolute;
+  		left: 0;
+  		top: 0;
+  	}
+  	span{
+  		position: absolute;
+  		animation: shanshan 1s infinite;
+  	}
+  	#score{
+  		position: absolute;
+  		width: 30px;
+  		height: 30px;
+  		top: 20px;
+  		right: 20px;
+  		color: #fff;
+  		font-weight: bold;
+  	}
+  	#num,.title{
+  		position: absolute;
+  		color: #fff;
+  		font-weight: bold;
+  	}
+  	#num{
+  		top: 20px;
+  		right: 60px;
+  	}
+  	.title{
+  		top: 50px;
+  		left: 50%;
+  		font-size: 36px;
+  		transform:translate(-50%,-50%) ;
+  	}
+  	#btn{
+  		position: absolute;
+  		left: 50%;
+  		top: 50%;
+  		transform:translate(-50%,-50%) ;
+  		padding: 5px 10px;
+  		border: 1px solid #fff;
+  		outline: none;
+  		cursor: pointer;
+  		box-shadow: 0 0 5px #ddd;
+  	}
+  	div.snake{
+  		width: 20px;
+  		height: 20px;
+  		background: url(snake.png) no-repeat 100% 100%;
+  		background-color: none;
+  		transform: rotate(90deg);
+  	}
+  	#reStart{
+  		width: 200px;
+  		position: absolute;
+  		left: 50%;
+  		top: 50%;
+  		transform:translate(-50%,-50%) ;
+  		box-shadow: 0 0 5px #ddd;
+  		display: none;
+  		text-align: center;
+  	}
+  	#reStart i{
+  		line-height: 50px;
+  		color: #fff;
+  		text-align: center;
+  		display: block;
+  	}
+  	#reStart button{
+  		width: 200px;
+  		padding: 5px 10px;
+  		border: 1px solid #fff;
+  		outline: none;
+  		cursor: pointer;
+  	}
+  	@keyframes shanshan{
+  		from{
+  			opacity: 1;
+  		}
+  		to{
+  			opacity: .5;
+  		}
+  	}
+  </style>
+</head>
+<body>
+ <audio src="bgm_game_puzzle.ogg" loop="loop"></audio>
+ <audio src="coll.ogg">浏览器版本过低</audio>
+ <p class="title">贪吃蛇游戏V1.1</p>
+ <b id="num"></b>
+ <b id="score"></b>
+ <p id="reStart">
+ 	<i></i>
+ 	<button>重新开始</button>
+ </p>
+ <button id="btn">开始游戏</button>
+ <script type="text/javascript">
+  // 兼容低版本ie的运动函数
+ 	window.onload=function(){
+ 	window.requestAnimationFrame=window.requestAnimationFrame||function(fn){setTimeout(fn(),1000/60);}
+	window.cancelAnimationFrame=window.cancelAnimationFrame||clearTimeout;
+  // 获取scoreDom
+	var scoreWrap=document.getElementById('score'),
+ 	    arr=[],
+      // 初始方向
+	 	direction="right",
+    // 贪吃蛇的初始速度
+		speed=4,
+		lastDirection = "right",
+    // 获取所有的食物
+		foods=document.getElementsByTagName('span'),
+		zIndex=300,
+    // 背景的最大高度
+		maxHeight=document.documentElement.clientHeight||document.body.clientHeight,
+    // 背景的最大宽度
+		maxWidth=document.documentElement.clientWidth||document.body.clientWidth,
+    // 食物间隔时间
+		createFoodTime,
+		score=0,
+    // 背景音乐
+		oAudio=document.getElementsByTagName('audio')[0],
+    // 吃食物的音乐
+		oAudio1=document.getElementsByTagName('audio')[1];
+    // 开始游戏
+	!function play(){
+    // 开始按钮
+		btn.onclick=function(){
+      // 按钮隐藏
+			btn.style.display="none";
+			document.querySelector('p').style.display='none';
+			begin();
+			autoPlay();
+		}
+	}();
+	function autoPlay(flag){
+    // 播放背景音乐
+			oAudio.play();
+	}
+	function begin(){
+    // 初始化蛇身
+		snakeInit();
+    // 创建食物
+		createFood();
+    // 每隔1s创建
+		createFoodTime=setInterval(createFood,1000);
+		moveTime1=move();
+	}
+  // 蛇身初始化函数
+	function snakeInit(){
+		var topV=Math.random()*(maxHeight-20);
+    // 蛇身3个
+		for (var i=0;i<3;i++) {
+		var oDiv=document.createElement('div');
+    // 蛇身颜色随机
+			oDiv.style.backgroundColor=randomColor();
+			oDiv.style.borderRadius="8px";
+			oDiv.style.left=i*12+'px';
+			oDiv.style.top=topV+'px';
+			oDiv.style.zIndex=zIndex+i;
+			oDiv.secArr = [];
+      // 每节蛇身的方向
+			oDiv._dir = "right";
+			if(i==2){
+				oDiv.className="snake";
+				oDiv.style.backgroundColor="";
+			}
+			document.body.appendChild(oDiv);
+      // 将每节蛇身push进arr数组
+			arr.push(oDiv);
+		}	
+    // 显示分数
+		scoreWrap.innerText=score;
+		num.innerText="分数:";
+	}
+  // 创建食物函数
+	function createFood(){
+ 		food=document.createElement('span');
+    // 随机食物颜色
+ 		food.style.backgroundColor=randomColor();
+    // 随机食物的宽度，高度，left值和top值，
+ 		food.style.left=Math.random()*(maxWidth-20)+'px';
+ 		food.style.top=Math.random()*(maxHeight-20)+'px';
+ 		food.style.width=Math.random()*15+10+'px';
+ 		food.style.height=food.style.width;
+ 		food.style.borderRadius="50%";
+ 		document.body.appendChild(food);
+ 		foods.length===50&&clearInterval(createFoodTime);
+ 	}
+  // 蛇头与蛇身的通用运动函数
+	function commonMove(obj,direction){
+		var x=0,y=0;
+    // 如果蛇头传入函数，方向是右边，蛇向右移动，蛇身也一样
+		if(direction&&direction=="right"||obj._dir=="right"){
+			x=speed;
+			y=0;
+		}
+      // 如果蛇头传入函数，方向是上边，蛇向上移动，蛇身也一样
+		if(direction&&direction=="up"||obj._dir=="up"){
+			y=-speed;
+			x=0;
+		}
+      // 如果蛇头传入函数，方向是下边，蛇向下移动，蛇身也一样
+		if(direction&&direction=="down"||obj._dir=="down"){
+			y=speed;
+			x=0;
+		}
+    // 如果蛇头传入函数，方向是左边，蛇向左移动，蛇身也一样
+		if(direction&&direction=="left"||obj._dir=="left"){
+			x=-speed;
+			y=0;
+		}
+    // 给蛇头蛇身设置样式
+		obj.style.left = obj.offsetLeft+x+"px";
+		obj.style.top = obj.offsetTop+y+"px";
+	}
+ 	function move(){
+ 		(function fn(){
+ 			//蛇头运动
+ 			var objHeader=arr[arr.length-1];
+      // 当蛇头上一次方向和当前方向不一样
+			if(lastDirection != direction){
+				objHeader.secArr.push({dir_left : objHeader.offsetLeft , dir_top: objHeader.offsetTop , _dir : direction });
+				objHeader._dir = direction;
+				lastDirection = direction;
+			}
+			commonMove(objHeader,direction);
+			//身体运动,
+   			for (var i=0;i<arr.length-1;i++) {
+          // 每次蛇身节点相比于上一个节点的方向如果方向相同
+				if(arr[i+1].secArr.length > 0 &&
+					arr[i].offsetLeft == arr[i+1].secArr[0].dir_left && 
+					arr[i].offsetTop == arr[i+1].secArr[0].dir_top)
+				{
+					arr[i]._dir = arr[i+1].secArr[0]._dir;
+					arr[i+1].secArr.shift();
+					if(i != 0)
+						{
+							arr[i].secArr.push({dir_left : arr[i].offsetLeft , dir_top: arr[i].offsetTop , _dir : arr[i]._dir });
+						}
+				}
+        // 方向不同继续运动到上一个节点位置
+				commonMove(arr[i]);
+   			}
+			
+ 			//碰到食物
+ 			for (var j=0;j<foods.length;j++) {
+ 				if(coll(objHeader,foods[j])){
+          // 分数+1
+ 				score++;
+ 				scoreWrap.innerText=score;
+        // 移除碰到的食物
+ 				document.body.removeChild(foods[j]);
+   				zIndex--;
+          // 给蛇尾添加蛇身节点
+   				var lastDiv=document.createElement('div');
+   				lastDiv.style.backgroundColor=randomColor();
+   				lastDiv.style.borderRadius="8px";
+   				lastDiv.style.zIndex=zIndex;
+          // 播放碰到食物的声音
+   				oAudio1.pause();
+   				oAudio1.play();
+         // 给将要添加的蛇尾根据方向判断添加在最后一个的后面
+   				switch(arr[0]._dir){
+   					case "left":
+   						lastDiv.style.left=arr[0].offsetLeft + 12 +'px';
+   						lastDiv.style.top=arr[0].offsetTop+'px';
+   					break;
+   					case "right":
+   						lastDiv.style.left=arr[0].offsetLeft - 12 +'px';
+   						lastDiv.style.top=arr[0].offsetTop+'px';
+   					break;
+   					case "up":
+   						lastDiv.style.left=arr[0].offsetLeft  +'px';
+   						lastDiv.style.top=arr[0].offsetTop + 12 +'px';
+   					break;
+   					case "down":
+   						lastDiv.style.left=arr[0].offsetLeft +'px';
+   						lastDiv.style.top=arr[0].offsetTop - 12 +'px';
+   					break;
+   				}
+   				lastDiv.secArr = [];
+				lastDiv._dir = arr[0]._dir;
+   				document.body.appendChild(lastDiv);
+   				arr.unshift(lastDiv);
+ 				}
+ 			}
+      // 蛇头碰到四个边界的情况
+ 			if(objHeader.offsetLeft<0||objHeader.offsetTop<0||objHeader.offsetLeft>maxWidth-20||objHeader.offsetTop>maxHeight-20){
+ 				reStart.style.display="block";
+ 				reStart.querySelector('i').innerText="大哥,撞墙了！！";
+        // 停止创造食物函数
+ 				clearInterval(createFoodTime);
+ 				document.onkeydown=null;
+        // 停止背景音乐
+ 				var oAudio=document.getElementsByTagName('audio')[0];
+				oAudio.pause();
+ 				return;
+ 			}
+		requestAnimationFrame(fn);
+ 		})();
+ 	}
+  // 碰撞函数
+ 	 function coll( obj1 , obj2 ){
+            var T1 = obj1.offsetTop,
+                B1 = T1+obj1.clientHeight,
+                L1 = obj1.offsetLeft,
+                R1 = L1+obj1.clientWidth;
+
+            var T2 = obj2.offsetTop,
+                B2 = T2+obj2.clientHeight,
+                L2 = obj2.offsetLeft,
+                R2 = L2+obj2.clientWidth;
+
+            return !( B1 < T2 || R1 < L2 || T1 > B2 || L1 > R2 );
+        }
+        // 重新开始按钮
+ 	 reStart.onclick=function(){
+ 	 	window.location.reload();
+ 	 }
+   // 键盘的四个方向按键的事件函数
+ 	document.onkeydown=function(e){
+ 		var keyNum=window.event ? e.keyCode :e.which; 
+ 		var deg=90;
+ 		switch(keyNum){
+ 			case 37:
+        // 当蛇正在向右运动，按左键无效
+ 				if(direction=="right") return;
+				lastDirection= direction;
+ 				direction="left";
+ 				deg=90;
+ 				break;
+ 			case 38:
+ 				
+ 				if(direction=="down") return;
+				lastDirection= direction;
+ 				direction="up";
+ 				deg=0;
+ 				break;
+ 			case 39:
+ 				
+ 				if(direction=="left") return;
+				lastDirection= direction;
+ 				direction="right";
+ 				deg=90;
+ 				break;
+ 			case 40:
+ 				
+ 				if(direction=="up") return;
+				lastDirection= direction;
+ 				direction="down";
+ 				deg=0;
+ 				break;
+ 		}
+    // 通过蛇运动方向调转蛇头的方向
+ 		arr[arr.length-1].style.transform = "rotate("+deg+"deg)";
+ 	}
+ 	function randomColor() { 
+ 	return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).substr(-6);
+	}
+ 	}
+  // 设计思路：这个游戏是通过贪吃蛇大作战的手游联想到的，不像网络上的通过时间控制二维数组贪吃蛇，我们游戏是实实在在的根据物理像素运动。
+  //将蛇分为一段段组合起来，每个蛇身节点有自己的方向和left和top值，通过和上一节的蛇节点运动方向，来运动，特殊情况：当蛇转弯的时候，转弯的节点方向改变，下一节点要运动到转弯节点在转弯，才能做到蛇身所有节点跟着蛇头运动。定时的随机在屏幕上投食，当蛇碰到食物，蛇身尾部加一个节点，颜色随机，然后食物在界面上消除，分数+1。通过键盘方向键控制蛇头的运动方向，同时改变蛇头图案的旋转角度，同时记录自身位置。当碰到四个边界，游戏结束，所有音乐结束，弹出重新游戏按钮
+ </script>
+</body>
+ </html>
